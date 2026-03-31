@@ -5,7 +5,7 @@ export DEBIAN_FRONTEND=noninteractive
 echo "[INFO] Starting VPS Setup..."
 
 echo "[INFO] Updating system..."
-apt update -y
+apt update 
 
 echo "[INFO] Fixing timezone (no prompt)..."
 ln -fs /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
