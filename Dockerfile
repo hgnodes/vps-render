@@ -1,11 +1,15 @@
 FROM ubuntu:22.04
 
-RUN apt update && apt install -y bash curl wget sudo
+ENV DEBIAN_FRONTEND=noninteractive
 
-WORKDIR /app
+RUN apt update && apt install -y \
+    curl wget sudo git unzip tar tmate netcat \
+    && apt clean
 
-COPY start.sh /app/start.sh
+WORKDIR /root
 
-RUN chmod +x /app/start.sh
+COPY start.sh /start.sh
 
-CMD ["bash", "start.sh"]
+RUN chmod +x /start.sh
+
+CMD ["bash", "/start.sh"]
