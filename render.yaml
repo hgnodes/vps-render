@@ -1,5 +1,5 @@
 services:
-  - type: worker   # 🔥 change this
+  - type: web
     name: vps-render
     env: docker
     plan: free
