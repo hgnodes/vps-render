@@ -2,20 +2,23 @@
 
 echo "[INFO] Starting VPS..."
 
-# start tmate
-tmate -S /tmp/tmate.sock new-session -d
+echo "======================================"
+echo "        SSHX REMOTE ACCESS 🔐"
+echo "======================================"
 
-echo "[INFO] Waiting for tmate..."
-sleep 10
+# install curl (just in case)
+apt update -y
+apt install -y curl
 
-echo "========== TMATE LOGIN =========="
+# run sshx
+curl -sSf https://sshx.io/get | sh -s run &
 
-tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}'
-tmate -S /tmp/tmate.sock display -p '#{tmate_web}'
+sleep 5
 
-echo "================================="
+echo "[INFO] SSHX session started!"
+echo "[INFO] Check logs above for your SSH link"
 
-# install python simple server (stable)
-echo "[INFO] Starting web server..."
+echo "======================================"
 
-python3 -m http.server 10000
+# keep render alive (no URL needed)
+while true; do sleep 1000; done
