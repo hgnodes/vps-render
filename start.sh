@@ -2,12 +2,14 @@
 
 echo "[INFO] Starting VPS Setup..."
 
-apt update -y && apt upgrade -y
+echo "[INFO] Updating system..."
+apt update -y
 
-apt install -y curl wget sudo git unzip tar neofetch tmate docker.io
+echo "[INFO] Installing basic packages..."
+apt install -y curl wget sudo git unzip tar tmate docker.io
 
 echo "[INFO] Starting Docker..."
-systemctl start docker || service docker start
+service docker start || true
 
 echo "[INFO] Starting tmate..."
 tmate -F > /dev/null 2>&1 &
@@ -29,8 +31,6 @@ apt install -y nginx php php-cli php-fpm php-mysql php-zip php-gd php-mbstring p
 echo "[INFO] Installing Composer..."
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
-
-neofetch
 
 echo "[SUCCESS] VPS READY!"
 
