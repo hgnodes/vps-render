@@ -6,19 +6,18 @@ echo "======================================"
 echo "        SSHX REMOTE ACCESS 🔐"
 echo "======================================"
 
-# install curl (just in case)
-apt update -y
-apt install -y curl
+# set hostname (ye important hai)
+hostname hemantgamerr
 
-# run sshx
-curl -sSf https://sshx.io/get | sh -s run &
+# start sshx with custom name
+curl -sSf https://sshx.io/get | sh -s run --name hemantgamerr &
 
-sleep 5
+sleep 6
 
 echo "[INFO] SSHX session started!"
-echo "[INFO] Check logs above for your SSH link"
+echo "[INFO] Your session name: root@hemantgamerr"
 
 echo "======================================"
 
-# keep render alive (no URL needed)
+# keep alive
 while true; do sleep 1000; done
