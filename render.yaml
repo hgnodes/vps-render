@@ -1,8 +1,7 @@
 services:
   - type: web
     name: vps-render
-    env: docker
+    env: node
     plan: free
-    branch: main
     buildCommand: ""
     startCommand: bash start.sh
