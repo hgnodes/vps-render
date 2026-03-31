@@ -1,15 +1,18 @@
 #!/bin/bash
 
+export DEBIAN_FRONTEND=noninteractive
+
 echo "[INFO] Starting VPS Setup..."
 
 echo "[INFO] Updating system..."
 apt update -y
 
-echo "[INFO] Installing basic packages..."
-apt install -y curl wget sudo git unzip tar tmate docker.io
+echo "[INFO] Fixing timezone (no prompt)..."
+ln -fs /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+dpkg-reconfigure --frontend noninteractive tzdata
 
-echo "[INFO] Starting Docker..."
-service docker start || true
+echo "[INFO] Installing packages..."
+apt install -y curl wget sudo git unzip tar tmate
 
 echo "[INFO] Starting tmate..."
 tmate -F > /dev/null 2>&1 &
@@ -21,18 +24,10 @@ tmate display -p '#{tmate_ssh}'
 tmate display -p '#{tmate_web}'
 echo "================================="
 
-echo "[INFO] Installing NodeJS..."
-curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-apt install -y nodejs
-
-echo "[INFO] Installing Pterodactyl deps..."
-apt install -y nginx php php-cli php-fpm php-mysql php-zip php-gd php-mbstring php-curl php-xml php-bcmath
-
-echo "[INFO] Installing Composer..."
-curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
-
 echo "[SUCCESS] VPS READY!"
 
-# keep alive
-while true; do sleep 1000; done
+# fake web server for Render (IMPORTANT)
+echo "[INFO] Starting dummy server on port 10000..."
+while true; do
+  echo -e "HTTP/1.1 200 OK\n\nVPS Running" | nc -l -p 10000 -q 1
+done
