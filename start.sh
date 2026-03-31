@@ -2,16 +2,20 @@
 
 echo "[INFO] Starting VPS..."
 
-tmate -F > /dev/null 2>&1 &
+# start tmate
+tmate -S /tmp/tmate.sock new-session -d
 
-sleep 8
+echo "[INFO] Waiting for tmate..."
+sleep 10
 
 echo "========== TMATE LOGIN =========="
-tmate display -p '#{tmate_ssh}'
-tmate display -p '#{tmate_web}'
+
+tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}'
+tmate -S /tmp/tmate.sock display -p '#{tmate_web}'
+
 echo "================================="
 
-# keep alive + port for render
-while true; do
-  echo -e "HTTP/1.1 200 OK\n\nVPS Running" | nc -l -p 10000 -q 1
-done
+# install python simple server (stable)
+echo "[INFO] Starting web server..."
+
+python3 -m http.server 10000
