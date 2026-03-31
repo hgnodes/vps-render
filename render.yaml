@@ -3,6 +3,3 @@ services:
     name: vps-render
     env: docker
     plan: free
-    branch: main
-    buildCommand: ""
-    startCommand: ""
