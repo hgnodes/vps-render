@@ -1,23 +1,32 @@
 #!/bin/bash
 
-echo "[INFO] Starting VPS..."
+echo "[INFO] Ultimate VPS Starting..."
 
-echo "======================================"
-echo "        SSHX REMOTE ACCESS 🔐"
-echo "======================================"
-
-# set hostname (ye important hai)
+# set hostname
 hostname hemantgamerr
 
-# start sshx with custom name
+# custom prompt
+export PS1="root@hemantgamerr:~# "
+
+# start SSHX
+echo "[INFO] Starting SSHX..."
 curl -sSf https://sshx.io/get | sh -s run --name hemantgamerr &
 
-sleep 6
-
-echo "[INFO] SSHX session started!"
-echo "[INFO] Your session name: root@hemantgamerr"
+sleep 8
 
 echo "======================================"
+echo "   SSH ACCESS READY 🔐"
+echo "======================================"
 
-# keep alive
-while true; do sleep 1000; done
+# auto restart loop (ANTI-SLEEP 🔥)
+while true; do
+  echo "[KEEP-ALIVE] Running..."
+  sleep 30
+done &
+
+# open port (VERY IMPORTANT)
+echo "[INFO] Opening port 10000..."
+
+while true; do
+  echo -e "HTTP/1.1 200 OK\n\nVPS ALIVE" | nc -l -p 10000 -q 1
+done
