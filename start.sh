@@ -1,24 +1,27 @@
 #!/bin/bash
 
-echo "[INFO] 🚀 Ultimate VPS Starting..."
+echo "[INFO] 🚀 VPS Starting..."
 
-# identity
 hostname hemantgamerr
 export PS1="root@hemantgamerr:~# "
 
-# 📦 install tmate (IMPORTANT)
-echo "[INFO] Installing tmate..."
-apt update -y
-apt install -y tmate
+# install required tools
+echo "[INFO] Installing packages..."
+apt update -y && apt install -y tmate curl
 
-# 🔐 TMATE START (ONE TIME)
+# =========================
+# 🔐 TMATE SETUP (FIXED)
+# =========================
 echo "======================================"
-echo "[TMATE] 🔐 SESSION START"
+echo "[TMATE] STARTING SESSION..."
 echo "======================================"
 
 tmate -S /tmp/tmate.sock new-session -d
 
-sleep 10
+# wait until ready
+until tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}' &>/dev/null; do
+  sleep 2
+done
 
 echo "[TMATE SSH]"
 tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}'
@@ -28,36 +31,27 @@ tmate -S /tmp/tmate.sock display -p '#{tmate_web}'
 
 echo "======================================"
 
-# 🔁 SSHX AUTO LOOP (30 MIN)
+# =========================
+# 🔁 SSHX LOOP (FIXED)
+# =========================
 (
 while true; do
   echo "======================================"
-  echo "[SSHX] 🔐 NEW SESSION STARTED"
+  echo "[SSHX] NEW SESSION 🔐"
   echo "======================================"
 
-  curl -sSf https://sshx.io/get | sh -s run --name hemantgamerr &
+  # foreground run so link PRINT ho
+  curl -sSf https://sshx.io/get | sh -s run --name hemantgamerr
 
-  sleep 15
-
-  echo "[INFO] ✅ SSHX READY (check link above)"
-
-  # 30 min run
-  for i in {1..6}; do
-    echo "[KEEP-ALIVE] ⏱️ Running... ($i/6)"
-    sleep 300
-  done
-
-  echo "[INFO] 🔄 Restarting SSHX..."
-
-  pkill -f sshx || true
-  sleep 3
-
+  echo "[INFO] SSHX ended → restarting in 5 sec..."
+  sleep 5
 done
 ) &
 
-# 🌐 Render PORT (IMPORTANT)
+# =========================
+# 🌐 RENDER PORT FIX
+# =========================
 PORT=10000
-
-echo "[INFO] 🌐 Opening Web Server on $PORT..."
+echo "[INFO] Starting web server on $PORT..."
 
 python3 -m http.server $PORT
